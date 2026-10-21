@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b8a5a">
+<title>مدرسة آمنة</title>
+<style>
+/* Layout: عمود واحد للجوال (حتى 560px)، شاشات متتابعة بانتقال جانبي، ولغة بصرية مأخوذة من لوحات السلامة: أخضر الأمان، أصفر التحذير بخطوط مائلة، أحمر الخطر. لا خطوط خارجية ولا مكتبات، حتى يعمل الملف دون إنترنت. */
+:root{
+  --bg:#f3f7f4; --card:#ffffff; --ink:#12372b; --muted:#4f6a60; --line:#d4e0d9;
+  --green:#1b8a5a; --green-d:#0f5f3d; --green-l:#dff3e8;
+  --yellow:#f6c21a; --yellow-l:#fff4cc;
+  --red:#d93b30; --red-l:#fde4e1;
+  --blue:#1c5fa8; --blue-l:#dcebfa;
+  --font:"Noto Naskh Arabic","Droid Arabic Naskh","Geeza Pro","Traditional Arabic","Simplified Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:18px;line-height:2;direction:rtl;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+button,input{font-family:inherit;font-size:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+h1{font-size:2.1rem;line-height:1.6;font-weight:700}
+h2{font-size:1.45rem;line-height:1.7;font-weight:700}
+h3{font-size:1.15rem;line-height:1.8;font-weight:700}
+svg{display:block;max-width:100%}
+.app{max-width:560px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 40px max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+#top{position:-webkit-sticky;position:sticky;top:0;z-index:20;background:var(--green-d);color:#fff;padding-top:env(safe-area-inset-top,0px)}
+.topin{max-width:560px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left,0px)) 6px max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:space-between}
+.topin b{font-size:1.1rem}
+.back{border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:999px;padding:2px 16px;min-height:40px;cursor:pointer;font-weight:700}
+.dots{display:flex}
+.dots i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.3);margin-right:6px}
+.dots i.on{background:var(--yellow)}
+.stripe{height:8px;background:repeating-linear-gradient(135deg,var(--yellow) 0,var(--yellow) 12px,var(--ink) 12px,var(--ink) 24px)}
+
+/* screens + transitions */
+.screen{display:none;padding-top:20px}
+.screen.on{display:block}
+.screen.fwd{-webkit-animation:inL .38s ease both;animation:inL .38s ease both}
+.screen.bck{-webkit-animation:inR .38s ease both;animation:inR .38s ease both}
+@-webkit-keyframes inL{from{opacity:0;-webkit-transform:translateX(-30px)}to{opacity:1;-webkit-transform:none}}
+@keyframes inL{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+@-webkit-keyframes inR{from{opacity:0;-webkit-transform:translateX(30px)}to{opacity:1;-webkit-transform:none}}
+@keyframes inR{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@-webkit-keyframes rise{from{opacity:0;-webkit-transform:translateY(16px)}to{opacity:1;-webkit-transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@-webkit-keyframes pop{0%{-webkit-transform:scale(.6);opacity:0}70%{-webkit-transform:scale(1.08)}100%{-webkit-transform:scale(1);opacity:1}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@-webkit-keyframes shake{0%,100%{-webkit-transform:none}25%{-webkit-transform:translateX(-7px)}75%{-webkit-transform:translateX(7px)}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@-webkit-keyframes drift{from{-webkit-transform:translateX(0)}to{-webkit-transform:translateX(26px)}}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(26px)}}
+@-webkit-keyframes bob{from{-webkit-transform:translateY(0)}to{-webkit-transform:translateY(-7px)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-7px)}}
+@-webkit-keyframes ping{0%{opacity:.9;stroke-width:3}100%{opacity:0;stroke-width:10}}
+@keyframes ping{0%{opacity:.9;stroke-width:3}100%{opacity:0;stroke-width:10}}
+.rise>*{-webkit-animation:rise .5s ease both;animation:rise .5s ease both}
+.rise>*:nth-child(2){-webkit-animation-delay:.07s;animation-delay:.07s}
+.rise>*:nth-child(3){-webkit-animation-delay:.14s;animation-delay:.14s}
+.rise>*:nth-child(4){-webkit-animation-delay:.21s;animation-delay:.21s}
+.rise>*:nth-child(5){-webkit-animation-delay:.28s;animation-delay:.28s}
+.rise>*:nth-child(6){-webkit-animation-delay:.35s;animation-delay:.35s}
+.shake{-webkit-animation:shake .35s;animation:shake .35s}
+.pop{-webkit-animation:pop .45s ease both;animation:pop .45s ease both}
+
+/* common */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}
+.note{background:var(--yellow-l);border-right:6px solid var(--yellow);border-radius:12px;padding:8px 14px;margin-top:14px;font-size:1rem;line-height:1.9}
+.muted{color:var(--muted)}
+.tag{display:inline-block;background:var(--green-l);color:var(--green-d);border-radius:999px;padding:0 14px;font-size:.92rem;font-weight:700;line-height:1.9}
+.btn{display:block;width:100%;min-height:54px;border:0;border-radius:16px;padding:6px 18px;font-weight:700;cursor:pointer;text-align:center;margin-top:14px;line-height:1.7}
+.btn.pri{background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-d)}
+.btn.pri:active{-webkit-transform:translateY(3px);transform:translateY(3px);box-shadow:0 1px 0 var(--green-d)}
+.btn.sec{background:#fff;color:var(--green-d);border:2px solid var(--green)}
+.btn:disabled{opacity:.45;box-shadow:none;cursor:default}
+.row2{display:grid;grid-template-columns:1fr 1fr;grid-gap:10px}
+.row2 .btn{margin-top:14px}
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* cover */
+.cover-art{border-radius:22px;overflow:hidden;background:#cfeaf7}
+.cover h1{margin-top:14px}
+.cover .lead{margin-top:4px;font-size:1.08rem}
+.field{margin-top:16px}
+.field label{display:block;font-weight:700}
+.field input{width:100%;min-height:54px;border:2px solid var(--line);border-radius:14px;padding:6px 14px;background:#fff;margin-top:4px}
+.field input:focus{border-color:var(--green)}
+.cloud{-webkit-animation:drift 9s ease-in-out infinite alternate;animation:drift 9s ease-in-out infinite alternate}
+.badge-bob{-webkit-animation:bob 2.2s ease-in-out infinite alternate;animation:bob 2.2s ease-in-out infinite alternate}
+
+/* hub */
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:999px;-webkit-transition:width .5s;transition:width .5s}
+.st{display:flex;align-items:center;width:100%;text-align:right;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 12px;margin-top:12px;cursor:pointer;min-height:84px}
+.st:active{background:var(--green-l)}
+.st.done{border-color:var(--green)}
+.st .ic{flex:none;width:58px;height:58px;border-radius:16px;margin-left:12px;display:flex;align-items:center;justify-content:center}
+.st .ic svg{width:40px;height:40px}
+.st .tx{flex:1;min-width:0}
+.st .tx b{display:block;font-size:1.12rem;line-height:1.6}
+.st .tx span{display:block;font-size:.95rem;color:var(--muted);line-height:1.6}
+.chip{flex:none;border-radius:999px;padding:0 12px;font-size:.88rem;font-weight:700;margin-right:8px;background:var(--line);color:var(--muted);line-height:1.9;white-space:nowrap}
+.chip.ok{background:var(--green);color:#fff}
+
+/* quiz */
+.qno{font-size:.95rem;color:var(--muted);font-weight:700}
+.qic{width:76px;height:76px;margin:6px auto 0}
+.q{font-size:1.2rem;font-weight:700;line-height:1.9;margin-top:6px}
+.opts{display:grid;grid-template-columns:1fr;grid-gap:10px;margin-top:12px}
+.opts.num{grid-template-columns:1fr 1fr}
+.opt{min-height:56px;border:2px solid var(--line);background:#fff;border-radius:14px;padding:6px 14px;text-align:right;cursor:pointer;line-height:1.8;font-weight:500}
+.opts.num .opt{text-align:center;font-size:2rem;font-weight:700;letter-spacing:.04em;color:var(--blue);min-height:68px}
+.opt:active{background:var(--green-l)}
+.opt.ok{border-color:var(--green);background:var(--green-l);color:var(--green-d)}
+.opt.no{border-color:var(--red);background:var(--red-l);color:var(--red)}
+.opt:disabled{cursor:default}
+.fb{border-radius:14px;padding:8px 14px;margin-top:12px;line-height:1.9;-webkit-animation:rise .3s both;animation:rise .3s both}
+.fb.ok{background:var(--green-l);color:var(--green-d)}
+.fb.no{background:var(--red-l);color:#8f241c}
+.fb b{display:block}
+
+/* numbers intro */
+.nums{display:grid;grid-template-columns:1fr 1fr;grid-gap:10px;margin-top:12px}
+.numc{border:2px solid var(--line);background:#fff;border-radius:16px;padding:8px 8px;text-align:center;cursor:pointer;min-height:132px;display:flex;flex-direction:column;justify-content:center;width:100%}
+.numc .big{font-size:2.3rem;font-weight:700;color:var(--blue);line-height:1.4;letter-spacing:.05em}
+.numc .who{font-weight:700;line-height:1.6}
+.numc .what{font-size:.92rem;color:var(--muted);line-height:1.6;margin-top:2px}
+.numc.open{border-color:var(--blue);background:var(--blue-l)}
+.numc .what{display:none}
+.numc.open .what{display:block}
+
+/* ordering */
+.slots{margin:10px 0 0;padding:0;list-style:none}
+.slots li{display:flex;align-items:center;background:var(--green-l);border-radius:14px;padding:6px 12px;margin-top:8px;line-height:1.7;-webkit-animation:pop .35s both;animation:pop .35s both}
+.slots li b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin-left:10px}
+.pool .opt{display:block;width:100%;margin-top:8px}
+
+/* extinguisher */
+.ext{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;margin-top:12px}
+.stepno{display:inline-block;background:var(--red);color:#fff;border-radius:12px;padding:0 14px;font-weight:700}
+
+/* hazard scene */
+.scene{border-radius:18px;overflow:hidden;border:2px solid var(--line);background:#fff;margin-top:12px;position:relative}
+.scene svg{width:100%;height:auto}
+.hs{fill:transparent;cursor:pointer}
+.ring{fill:none;stroke:var(--green);stroke-width:4}
+.ping{fill:none;stroke:var(--red);stroke-width:3;-webkit-animation:ping 1s ease-out 3;animation:ping 1s ease-out 3}
+.toast{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(18,55,43,.92);color:#fff;border-radius:12px;padding:2px 12px;font-size:.95rem;text-align:center;line-height:1.8}
+.found{display:flex;align-items:flex-start;background:var(--red-l);border-radius:14px;padding:8px 12px;margin-top:10px;-webkit-animation:rise .3s both;animation:rise .3s both}
+.found .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;margin-left:10px;margin-top:6px}
+.found div{font-size:1rem;line-height:1.85}
+.found b{display:block;color:#8f241c}
+
+/* binary card */
+.big-card{background:#fff;border:2px solid var(--line);border-radius:20px;padding:14px;margin-top:12px;text-align:center}
+.big-card .qic{margin:0 auto}
+.big-card .q{margin-top:4px}
+.yn{display:grid;grid-template-columns:1fr 1fr;grid-gap:10px;margin-top:12px}
+.yn .btn{margin-top:0;display:flex;align-items:center;justify-content:center}
+.yn .btn svg{width:26px;height:26px;margin-left:8px}
+.btn.yes{background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-d)}
+.btn.no{background:var(--red);color:#fff;box-shadow:0 4px 0 #9d2a22}
+
+/* result */
+.res{text-align:center}
+.stars{display:flex;justify-content:center;margin-top:6px}
+.stars svg{width:46px;height:46px;margin:0 3px}
+.stars .pop{-webkit-animation-delay:.1s}
+.res .score{font-size:2.6rem;font-weight:700;line-height:1.5;color:var(--green-d)}
+
+/* certificate */
+.cert{background:#fff;border:3px solid var(--green-d);border-radius:20px;overflow:hidden;margin-top:14px;text-align:center}
+.cert .body{padding:14px 16px 18px}
+.cert .nm{font-size:1.9rem;font-weight:700;color:var(--green-d);line-height:1.6;border-bottom:2px dashed var(--line);margin:6px 0 8px;padding-bottom:4px;word-wrap:break-word}
+.cert .lvl{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:700;border-radius:999px;padding:0 18px;margin-top:6px}
+.cert .shield{width:84px;height:84px;margin:0 auto}
+ul.todo{margin:8px 0 0;padding-right:1.2em}
+ul.todo li{margin-top:4px}
+.pledge{font-size:1.05rem;line-height:2;margin-top:8px}
+
+@media (max-width:360px){body{font-size:17px}h1{font-size:1.8rem}.opts.num .opt{font-size:1.7rem}}
+@media (prefers-reduced-motion:reduce){*{-webkit-animation:none!important;animation:none!important;-webkit-transition:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header id="top" hidden>
+  <div class="topin">
+    <button class="back" id="btn-back" type="button">الخريطة</button>
+    <b id="top-title">مدرسة آمنة</b>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+  </div>
+  <div class="stripe"></div>
+</header>
+
+<main class="app">
+
+<!-- ====== الغلاف ====== -->
+<section id="s-cover" class="screen cover on">
+  <div class="cover-art" aria-hidden="true">
+    <svg viewBox="0 0 320 200" width="100%">
+      <rect width="320" height="200" fill="#cfeaf7"/>
+      <circle cx="262" cy="42" r="22" fill="#f6c21a"/>
+      <g stroke="#f6c21a" stroke-width="4" stroke-linecap="round"><path d="M262 8v8M262 68v8M228 42h8M288 42h8M238 18l6 6M280 60l6 6M286 18l-6 6M244 60l-6 6"/></g>
+      <g class="cloud"><ellipse cx="70" cy="40" rx="30" ry="11" fill="#fff"/><ellipse cx="88" cy="32" rx="20" ry="10" fill="#fff"/></g>
+      <g class="cloud" style="-webkit-animation-duration:12s;animation-duration:12s"><ellipse cx="170" cy="62" rx="24" ry="9" fill="#fff"/><ellipse cx="184" cy="55" rx="15" ry="8" fill="#fff"/></g>
+      <rect x="0" y="160" width="320" height="40" fill="#8fd0a3"/>
+      <rect x="62" y="84" width="196" height="78" fill="#f2e6c9"/>
+      <rect x="62" y="84" width="196" height="8" fill="#12372b"/>
+      <polygon points="52,86 160,52 268,86" fill="#1b8a5a"/>
+      <rect x="146" y="118" width="28" height="44" rx="3" fill="#0f5f3d"/>
+      <circle cx="168" cy="142" r="2" fill="#f6c21a"/>
+      <g fill="#9fd4ee" stroke="#12372b" stroke-width="2"><rect x="78" y="104" width="30" height="26"/><rect x="116" y="104" width="20" height="26"/><rect x="184" y="104" width="20" height="26"/><rect x="212" y="104" width="30" height="26"/></g>
+      <rect x="283" y="70" width="4" height="92" fill="#12372b"/>
+      <path d="M287 72h26l-6 9 6 9h-26z" fill="#1b8a5a"/>
+      <g fill="#2e7d4f"><circle cx="30" cy="140" r="20"/><circle cx="296" cy="146" r="0"/></g><rect x="28" y="150" width="5" height="14" fill="#6b4a2b"/>
+      <g class="badge-bob">
+        <path d="M160 6l34 12v26c0 20-14 34-34 42-20-8-34-22-34-42V18z" fill="#fff" stroke="#12372b" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M160 14l26 9v21c0 15-10 26-26 33-16-7-26-18-26-33V23z" fill="#1b8a5a"/>
+        <path d="M146 46l10 10 20-22" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </svg>
+  </div>
+  <h1>مدرسة آمنة</h1>
+  <div style="margin-top:4px"><span class="tag">مبادرة صحية وبيئية</span> <span class="tag" style="background:var(--blue-l);color:var(--blue)">الصف الثالث المتوسط</span></div>
+  <p class="lead">مبادرة لرفع مستوى الوعي بإجراءات الأمن والسلامة والوقاية من المخاطر والتعامل السليم مع الحالات الطارئة.</p>
+  <p class="muted" style="font-size:.98rem;margin-top:2px">إعداد وإشراف: المعلم محمد آل لحيان</p>
+  <div class="note">أمامك خمس محطات قصيرة: أرقام الطوارئ، والحريق والإخلاء، والإسعافات الأولية، واكتشاف الخطر، والبيئة الصحية. في النهاية تحصل على شهادتك.</div>
+  <div class="field">
+    <label for="in-name">اكتب اسمك لتظهر على الشهادة</label>
+    <input id="in-name" type="text" maxlength="40" autocomplete="off" placeholder="مثال: عبدالله محمد">
+  </div>
+  <button class="btn pri" id="btn-start" type="button">ابدأ الرحلة</button>
+</section>
+
+<!-- ====== الخريطة ====== -->
+<section id="s-hub" class="screen">
+  <h2 id="hub-hello">محطات الأمان</h2>
+  <p class="muted" id="hub-sub">أكمل المحطات الخمس بالترتيب الذي تحب.</p>
+  <div class="bar" style="margin-top:8px"><i id="hub-bar" style="width:0"></i></div>
+  <div class="muted" id="hub-count" style="font-size:.95rem;margin-top:2px"></div>
+  <div id="hub-list" class="rise"></div>
+  <button class="btn pri" id="btn-cert" type="button" disabled>احصل على شهادتك</button>
+  <div class="muted" id="cert-hint" style="text-align:center;font-size:.95rem;margin-top:4px">تُفتح الشهادة بعد إكمال المحطات الخمس.</div>
+</section>
+
+<!-- ====== المحطة ====== -->
+<section id="s-play" class="screen">
+  <div id="play"></div>
+</section>
+
+<!-- ====== الشهادة ====== -->
+<section id="s-final" class="screen">
+  <div class="cert pop" id="cert">
+    <div class="stripe"></div>
+    <div class="body">
+      <svg class="shield" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 4l38 14v30c0 22-16 38-38 48C28 86 12 70 12 48V18z" fill="#1b8a5a" stroke="#12372b" stroke-width="4" stroke-linejoin="round"/><path d="M32 50l13 13 24-28" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h2 style="margin-top:4px">شهادة سفير الأمان المدرسي</h2>
+      <div class="muted" style="font-size:.95rem">مبادرة «مدرسة آمنة» · صحية وبيئية</div>
+      <div style="margin-top:8px">تُمنح هذه الشهادة إلى</div>
+      <div class="nm" id="c-name"></div>
+      <div>لإتمامه محطات المبادرة بنتيجة</div>
+      <div class="score" id="c-score" style="font-size:2.2rem;font-weight:700;color:var(--green-d);line-height:1.6"></div>
+      <div class="stars" id="c-stars"></div>
+      <div class="lvl" id="c-level"></div>
+      <div class="muted" id="c-date" style="margin-top:8px;font-size:.95rem"></div>
+      <div style="margin-top:10px;border-top:2px dashed var(--line);padding-top:6px"><span class="muted" style="font-size:.92rem">المشرف على المبادرة</span><div style="font-weight:700;color:var(--green-d)">المعلم محمد آل لحيان</div></div>
+    </div>
+    <div class="stripe"></div>
+  </div>
+  <div class="note">خذ لقطة شاشة للشهادة واعرضها على معلمك.</div>
+
+  <div class="card">
+    <h3>عهد سفير الأمان</h3>
+    <p class="pledge">أتعهد بأن أحافظ على سلامتي وسلامة زملائي، وأتبع تعليمات الأمن والسلامة، وأبلّغ عن أي خطر أراه، وأحافظ على نظافة مدرستي وبيئتي.</p>
+  </div>
+  <div class="card">
+    <h3>مهمتك التالية</h3>
+    <ul class="todo">
+      <li>علّم أحد أفراد أسرتك أرقام الطوارئ: 998 و997 و999 و911.</li>
+      <li>تجوّل في مدرستك وابحث عن خطر واحد، ثم أبلغ المعلم عنه.</li>
+      <li>شارك زملاءك ما تعلمته في الطابور الصباحي أو الإذاعة المدرسية.</li>
+    </ul>
+  </div>
+  <button class="btn sec" id="btn-hub2" type="button">العودة إلى المحطات</button>
+  <button class="btn sec" id="btn-reset" type="button">ابدأ من جديد</button>
+</section>
+
+</main>
+
+<!-- مشهد اكتشاف الخطر -->
+<div id="scene-src" hidden>
+<svg id="scene" viewBox="0 0 360 440" role="img" aria-label="ممر في مدرسة فيه ستة مخاطر">
+  <rect width="360" height="300" fill="#e3ede8"/>
+  <rect y="296" width="360" height="144" fill="#cdd8d2"/>
+  <path d="M0 330H360M0 380H360M90 296L40 440M200 296L190 440M300 296L340 440" stroke="#b9c7c0" stroke-width="2" fill="none"/>
+  <rect x="0" y="288" width="360" height="10" fill="#b4c3bb"/>
+  <rect x="20" y="8" width="90" height="10" rx="5" fill="#fff"/><rect x="250" y="8" width="90" height="10" rx="5" fill="#fff"/>
+  <!-- classroom door -->
+  <rect x="14" y="116" width="62" height="172" fill="#8a6a45"/><rect x="24" y="130" width="42" height="46" fill="#bfe3f2" stroke="#5c4429" stroke-width="3"/><circle cx="66" cy="230" r="4" fill="#f6c21a"/>
+  <!-- notice board -->
+  <rect x="84" y="140" width="36" height="42" fill="#d9c9a0" stroke="#8a6a45" stroke-width="3"/><rect x="90" y="148" width="12" height="12" fill="#fff"/><rect x="106" y="150" width="10" height="14" fill="#f6c21a"/>
+  <!-- exit door -->
+  <rect x="128" y="116" width="72" height="172" fill="#1b8a5a" stroke="#0f5f3d" stroke-width="4"/>
+  <rect x="138" y="86" width="52" height="22" rx="4" fill="#0f5f3d"/><text x="164" y="102" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="sans-serif">مخرج</text>
+  <rect x="186" y="190" width="6" height="26" rx="3" fill="#e8f5ee"/>
+  <!-- boxes blocking exit -->
+  <rect x="112" y="248" width="46" height="40" fill="#c58b4e" stroke="#7a5128" stroke-width="3"/><path d="M112 262h46" stroke="#7a5128" stroke-width="3"/>
+  <rect x="152" y="258" width="40" height="30" fill="#d39a5c" stroke="#7a5128" stroke-width="3"/><path d="M152 270h40" stroke="#7a5128" stroke-width="3"/>
+  <rect x="128" y="216" width="40" height="32" fill="#d39a5c" stroke="#7a5128" stroke-width="3"/><path d="M128 228h40" stroke="#7a5128" stroke-width="3"/>
+  <!-- extinguisher + jacket -->
+  <rect x="214" y="200" width="20" height="62" rx="8" fill="#d93b30"/><rect x="218" y="190" width="12" height="12" fill="#12372b"/><rect x="210" y="214" width="28" height="8" fill="#12372b" opacity=".6"/>
+  <path d="M206 196c14-6 36-4 40 8 4 20 2 44-6 58-10-6-30-4-38-12-4-20-2-40 4-54z" fill="#2c6fb5" opacity=".92"/><path d="M214 212c8 2 18 2 24-2" stroke="#1c4f85" stroke-width="3" fill="none"/>
+  <!-- stairs -->
+  <polygon points="252,296 360,296 360,150 330,150 330,184 300,184 300,214 276,214 276,246 252,246" fill="#aebdb5"/>
+  <path d="M252 246h24v50M276 214h24v32M300 184h30v30M330 150v34" stroke="#8ea199" stroke-width="3" fill="none"/>
+  <path d="M258 236L350 150" stroke="#12372b" stroke-width="4" stroke-linecap="round"/><path d="M258 236v54M290 206v84M322 176v114" stroke="#12372b" stroke-width="3"/>
+  <!-- running student -->
+  <g transform="translate(300 160)">
+    <circle cx="0" cy="0" r="11" fill="#e8b98a"/><path d="M-11 -2c2-12 20-12 22 0z" fill="#12372b"/>
+    <path d="M0 11l-4 30" stroke="#1c5fa8" stroke-width="12" stroke-linecap="round"/>
+    <path d="M-4 40l-14 20M-4 40l14 12" stroke="#12372b" stroke-width="8" stroke-linecap="round"/>
+    <path d="M-2 18l-20 8M2 18l18 -6" stroke="#e8b98a" stroke-width="7" stroke-linecap="round"/>
+    <path d="M24 0h18M26 14h16M26 28h12" stroke="#12372b" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+  </g>
+  <!-- socket + wires -->
+  <rect x="82" y="236" width="26" height="34" rx="4" fill="#fff" stroke="#12372b" stroke-width="3"/><circle cx="91" cy="248" r="3" fill="#12372b"/><circle cx="100" cy="248" r="3" fill="#12372b"/><circle cx="91" cy="260" r="3" fill="#12372b"/><circle cx="100" cy="260" r="3" fill="#12372b"/>
+  <path d="M91 262c-12 14 6 22-4 36s10 14 4 26" stroke="#d93b30" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M100 262c10 12-8 22 4 34s-8 16 0 28" stroke="#12372b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M96 242l-5 8h7l-5 8" stroke="#f6c21a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(-26 -6)"/>
+  <!-- puddle -->
+  <ellipse cx="116" cy="372" rx="54" ry="14" fill="#7cc4e6" opacity=".85"/><ellipse cx="102" cy="368" rx="20" ry="4" fill="#fff" opacity=".6"/>
+  <!-- backpack -->
+  <g transform="translate(236 372)">
+    <rect x="-26" y="-34" width="52" height="52" rx="14" fill="#e4572e" stroke="#9d3a1c" stroke-width="3"/>
+    <rect x="-16" y="-8" width="32" height="20" rx="6" fill="#f08a5d" stroke="#9d3a1c" stroke-width="3"/>
+    <path d="M-12 -34c0-14 24-14 24 0" stroke="#9d3a1c" stroke-width="5" fill="none"/>
+  </g>
+  <!-- hotspots -->
+  <circle class="hs" data-i="0" cx="116" cy="372" r="42"/>
+  <circle class="hs" data-i="1" cx="96" cy="272" r="38"/>
+  <circle class="hs" data-i="2" cx="146" cy="254" r="48"/>
+  <circle class="hs" data-i="3" cx="236" cy="372" r="40"/>
+  <circle class="hs" data-i="4" cx="300" cy="190" r="46"/>
+  <circle class="hs" data-i="5" cx="226" cy="236" r="40"/>
+  <g id="marks"></g>
+</svg>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- helpers ---------- */
+function $(s,r){return (r||document).querySelector(s)}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function clear(n){while(n.firstChild)n.removeChild(n.firstChild)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function buzz(ms){try{if(navigator.vibrate)navigator.vibrate(ms)}catch(e){}}
+function store(k,v){try{if(v===undefined){return window.localStorage.getItem(k)}window.localStorage.setItem(k,v)}catch(e){return null}}
+function svg(inner,vb){return '<svg viewBox="'+(vb||'0 0 64 64')+'" aria-hidden="true">'+inner+'</svg>'}
+
+/* ---------- icons ---------- */
+var IC={
+ flame:svg('<path d="M32 4c3 11 15 17 15 32a15 15 0 0 1-30 0c0-9 5-13 8-20 3 5 5 6 7 2 1-4 0-9 0-14z" fill="#e8591a"/><path d="M32 30c2 6 8 9 8 17a8 8 0 0 1-16 0c0-6 4-8 5-12 1 3 2 3 3 1z" fill="#f6c21a"/>'),
+ drop:svg('<path d="M32 5C24 18 14 28 14 41a18 18 0 0 0 36 0C50 28 40 18 32 5z" fill="#d93b30"/><path d="M24 42a8 8 0 0 0 7 8" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>'),
+ water:svg('<path d="M32 5C24 18 14 28 14 41a18 18 0 0 0 36 0C50 28 40 18 32 5z" fill="#2d9ad6"/><path d="M24 42a8 8 0 0 0 7 8" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>'),
+ bandage:svg('<g transform="rotate(-35 32 32)"><rect x="4" y="22" width="56" height="20" rx="10" fill="#f0c9a0" stroke="#12372b" stroke-width="3"/><rect x="22" y="22" width="20" height="20" fill="#fff" stroke="#12372b" stroke-width="3"/><circle cx="13" cy="32" r="1.8" fill="#12372b"/><circle cx="51" cy="32" r="1.8" fill="#12372b"/></g>'),
+ sun:svg('<circle cx="32" cy="32" r="12" fill="#f6c21a" stroke="#e39a00" stroke-width="3"/><g stroke="#e39a00" stroke-width="4" stroke-linecap="round"><path d="M32 6v8M32 50v8M6 32h8M50 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M20 44l-6 6"/></g>'),
+ phone:svg('<rect x="16" y="4" width="32" height="56" rx="8" fill="#12372b"/><rect x="20" y="12" width="24" height="34" rx="3" fill="#bfe3f2"/><circle cx="32" cy="53" r="3" fill="#fff"/><path d="M26 22h12M26 29h12M26 36h7" stroke="#1c5fa8" stroke-width="3" stroke-linecap="round"/>'),
+ bulb:svg('<path d="M32 6a16 16 0 0 0-9 29c2 2 3 4 3 7h12c0-3 1-5 3-7A16 16 0 0 0 32 6z" fill="#f6c21a" stroke="#e39a00" stroke-width="3"/><rect x="24" y="46" width="16" height="6" rx="3" fill="#12372b"/><rect x="27" y="54" width="10" height="5" rx="2.5" fill="#12372b"/>'),
+ tap:svg('<path d="M10 22h26a12 12 0 0 1 12 12v4H40v-4a4 4 0 0 0-4-4H10z" fill="#8ea199" stroke="#12372b" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="12" width="12" height="10" rx="3" fill="#12372b"/><path d="M44 44c-3 5-5 8-5 11a5 5 0 0 0 10 0c0-3-2-6-5-11z" fill="#2d9ad6"/>'),
+ trash:svg('<path d="M14 18h36l-4 40H18z" fill="#1b8a5a" stroke="#12372b" stroke-width="3" stroke-linejoin="round"/><rect x="10" y="12" width="44" height="8" rx="3" fill="#0f5f3d"/><rect x="26" y="6" width="12" height="7" rx="2" fill="#12372b"/><path d="M24 28v22M32 28v22M40 28v22" stroke="#dff3e8" stroke-width="3" stroke-linecap="round"/>'),
+ hands:svg('<circle cx="22" cy="40" r="14" fill="#cfeaf7" stroke="#2d9ad6" stroke-width="3"/><circle cx="44" cy="26" r="10" fill="#cfeaf7" stroke="#2d9ad6" stroke-width="3"/><circle cx="46" cy="48" r="6" fill="#cfeaf7" stroke="#2d9ad6" stroke-width="3"/><circle cx="18" cy="12" r="4" fill="#cfeaf7" stroke="#2d9ad6" stroke-width="2"/><path d="M15 36c3-4 6-5 9-4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>'),
+ bottle:svg('<rect x="26" y="4" width="12" height="8" rx="2" fill="#12372b"/><path d="M24 12h16v8c6 4 8 8 8 14v20a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V34c0-6 2-10 8-14z" fill="#bfe3f2" stroke="#2d9ad6" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="34" width="28" height="12" fill="#2d9ad6" opacity=".4"/>'),
+ recycle:svg('<path d="M32 8c10 0 18 6 21 15" stroke="#1b8a5a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M58 18L52 30 42 20z" fill="#1b8a5a"/><path d="M50 46c-4 8-12 12-20 11" stroke="#1b8a5a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M28 64l-4-12 12 2z" fill="#1b8a5a" transform="translate(-6 -10)"/><path d="M12 40C8 30 12 18 22 12" stroke="#1b8a5a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M26 6l-12 2 6 10z" fill="#1b8a5a" transform="translate(-6 0)"/>'),
+ hiding:svg('<rect x="10" y="22" width="44" height="30" rx="4" fill="#d39a5c" stroke="#7a5128" stroke-width="3"/><path d="M10 34h44" stroke="#7a5128" stroke-width="3"/><rect x="28" y="30" width="8" height="8" rx="2" fill="#f6c21a"/><circle cx="46" cy="14" r="6" fill="#d93b30"/><path d="M42 10l8 8M50 10l-8 8" stroke="#fff" stroke-width="2.5"/>'),
+ alert:svg('<path d="M32 6L60 56H4z" fill="#f6c21a" stroke="#12372b" stroke-width="4" stroke-linejoin="round"/><path d="M32 22v18" stroke="#12372b" stroke-width="6" stroke-linecap="round"/><circle cx="32" cy="48" r="3.6" fill="#12372b"/>'),
+ shield:svg('<path d="M32 4l24 9v20c0 14-10 24-24 30C18 57 8 47 8 33V13z" fill="#1b8a5a" stroke="#12372b" stroke-width="3" stroke-linejoin="round"/><path d="M20 33l9 9 16-18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'),
+ exit:svg('<rect x="6" y="8" width="52" height="48" rx="6" fill="#1b8a5a"/><path d="M20 20h14v24H20z" fill="#fff" opacity=".9"/><path d="M38 32h14M46 25l7 7-7 7" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'),
+ eye:svg('<path d="M4 32c9-14 19-20 28-20s19 6 28 20c-9 14-19 20-28 20S13 46 4 32z" fill="#fff" stroke="#12372b" stroke-width="3"/><circle cx="32" cy="32" r="11" fill="#1c5fa8"/><circle cx="32" cy="32" r="5" fill="#12372b"/><circle cx="28" cy="28" r="2.5" fill="#fff"/>'),
+ leaf:svg('<path d="M10 54C8 28 24 8 56 8c0 32-18 48-42 46z" fill="#1b8a5a" stroke="#0f5f3d" stroke-width="3" stroke-linejoin="round"/><path d="M12 52C26 38 38 28 48 16" stroke="#dff3e8" stroke-width="3" fill="none" stroke-linecap="round"/>')
+};
+var CHECK=svg('<path d="M12 33l14 14 26-30" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>');
+var CROSS=svg('<path d="M16 16l32 32M48 16L16 48" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>');
+function star(on){return svg('<path d="M32 4l8 18 20 2-15 13 5 20-18-10-18 10 5-20L4 24l20-2z" fill="'+(on?'#f6c21a':'#d4e0d9')+'" stroke="'+(on?'#e39a00':'#b4c3bb')+'" stroke-width="3" stroke-linejoin="round"/>')}
+
+/* ---------- state ---------- */
+var MAXES=[4,5,4,6,8];
+var S={name:'',scores:[null,null,null,null,null]};
+function save(){store('madrasa-amina',JSON.stringify(S))}
+function load(){
+  var raw=store('madrasa-amina');
+  if(!raw)return;
+  try{var o=JSON.parse(raw);if(o&&o.scores&&o.scores.length===5){S.name=o.name||'';S.scores=o.scores}}catch(e){}
+}
+function doneCount(){var n=0;for(var i=0;i<5;i++)if(S.scores[i]!==null)n++;return n}
+function total(){var t=0;for(var i=0;i<5;i++)t+=(S.scores[i]||0);return t}
+function maxTotal(){var t=0;for(var i=0;i<5;i++)t+=MAXES[i];return t}
+
+/* ---------- screens ---------- */
+var cur='cover';
+function go(id,back){
+  var all=['cover','hub','play','final'];
+  for(var i=0;i<all.length;i++){var s=$('#s-'+all[i]);s.className='screen'+(all[i]===cur&&false?'':'')}
+  var t=$('#s-'+id);
+  t.className='screen on '+(back?'bck':'fwd');
+  if(id==='cover')t.className+=' cover';
+  cur=id;
+  $('#top').hidden=(id==='cover');
+  $('#btn-back').style.visibility=(id==='hub'||id==='cover')?'hidden':'visible';
+  if(id==='hub')$('#top-title').textContent='محطات الأمان';
+  if(id==='final')$('#top-title').textContent='شهادتك';
+  renderDots();
+  try{window.scrollTo(0,0)}catch(e){}
+}
+function renderDots(){
+  var d=$('#dots');clear(d);
+  for(var i=0;i<5;i++){var x=el('i',S.scores[i]!==null?'on':'');d.appendChild(x)}
+}
+
+/* ---------- stations meta ---------- */
+var ST=[
+ {t:'أرقام الطوارئ',d:'من تتصل به عند الخطر؟',ic:'phone',bg:'#dcebfa'},
+ {t:'الحريق والإخلاء',d:'رتّب خطوات الإخلاء وتعلّم الطفاية',ic:'flame',bg:'#fde4e1'},
+ {t:'الإسعافات الأولية',d:'تصرّف الصحيح في أربع حالات',ic:'bandage',bg:'#fff4cc'},
+ {t:'اكتشف الخطر',d:'ابحث عن ستة مخاطر في ممر المدرسة',ic:'eye',bg:'#e7e9f8'},
+ {t:'بيئة صحية',d:'سلوك صحيح أم سلوك خاطئ؟',ic:'leaf',bg:'#dff3e8'}
+];
+function renderHub(){
+  var list=$('#hub-list');clear(list);
+  ST.forEach(function(s,i){
+    var b=el('button','st'+(S.scores[i]!==null?' done':''));b.type='button';
+    var ic=el('div','ic',IC[s.ic]);ic.style.background=s.bg;
+    var tx=el('div','tx','<b></b><span></span>');
+    tx.firstChild.textContent=(i+1)+'. '+s.t;tx.lastChild.textContent=s.d;
+    var chip=el('div','chip'+(S.scores[i]!==null?' ok':''));
+    chip.textContent=S.scores[i]!==null?(S.scores[i]+'/'+MAXES[i]):'ابدأ';
+    b.appendChild(ic);b.appendChild(tx);b.appendChild(chip);
+    b.onclick=function(){openStation(i)};
+    list.appendChild(b);
+  });
+  var n=doneCount();
+  $('#hub-bar').style.width=(n/5*100)+'%';
+  $('#hub-count').textContent='أنجزت '+n+' من 5 محطات';
+  $('#hub-hello').textContent=S.name?('أهلًا '+S.name):'محطات الأمان';
+  $('#btn-cert').disabled=(n<5);
+  $('#cert-hint').hidden=(n>=5);
+}
+function toHub(back){renderHub();go('hub',back)}
+
+/* ---------- quiz engine ---------- */
+function runQuiz(box,items,cfg,done){
+  var idx=0,score=0;
+  function show(){
+    clear(box);
+    var it=items[idx];
+    var c=el('div','card');
+    c.appendChild(el('div','qno','السؤال '+(idx+1)+' من '+items.length));
+    if(it.icon){var ic=el('div','qic',IC[it.icon]);c.appendChild(ic)}
+    var q=el('div','q');q.textContent=it.q;c.appendChild(q);
+    var o=el('div','opts'+(cfg.num?' num':''));
+    var order=shuffle(it.o.map(function(t,i){return i}));
+    var fbBox=el('div');
+    var btns=[];
+    order.forEach(function(oi){
+      var b=el('button','opt');b.type='button';b.textContent=it.o[oi];
+      if(oi===it.a)b.setAttribute('data-ok','1');
+      b.onclick=function(){
+        var ok=(oi===it.a);
+        btns.forEach(function(x){x.disabled=true});
+        b.className='opt '+(ok?'ok':'no');
+        if(!ok){btns.forEach(function(x){if(x.getAttribute('data-ok'))x.className='opt ok'});buzz(60)}else{score++;buzz(20)}
+        var fb=el('div','fb '+(ok?'ok':'no'));
+        var bb=el('b');bb.textContent=ok?'أحسنت!':'ليست هذه الإجابة.';fb.appendChild(bb);
+        fb.appendChild(document.createTextNode(it.why));
+        fbBox.appendChild(fb);
+        var nx=el('button','btn pri');nx.type='button';nx.textContent=(idx===items.length-1)?'إنهاء المحطة':'التالي';
+        nx.onclick=function(){if(idx===items.length-1){done(score)}else{idx++;show()}};
+        fbBox.appendChild(nx);
+        try{nx.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
+      };
+      btns.push(b);o.appendChild(b);
+    });
+    c.appendChild(o);c.appendChild(fbBox);box.appendChild(c);
+  }
+  show();
+}
+
+/* ---------- station 1: emergency numbers ---------- */
+function st1(box,done){
+  clear(box);
+  var intro=el('div');
+  intro.appendChild(el('h2',null,'أرقام الطوارئ في المملكة'));
+  intro.appendChild(el('p','muted','اضغط على كل بطاقة لتعرف متى تستخدم الرقم.'));
+  var g=el('div','nums');
+  var nums=[
+   ['998','الدفاع المدني','الحرائق والإنقاذ وانهيار المباني'],
+   ['997','الهلال الأحمر','الإسعاف والإصابات والحالات الصحية الطارئة'],
+   ['999','الشرطة','السرقة والاعتداء والخطر الأمني'],
+   ['911','الرقم الموحد','أي حالة طارئة إذا لم تعرف الجهة المناسبة']
+  ];
+  nums.forEach(function(n){
+    var b=el('button','numc');b.type='button';
+    b.appendChild(el('div','big',n[0]));
+    var w=el('div','who');w.textContent=n[1];b.appendChild(w);
+    var d=el('div','what');d.textContent=n[2];b.appendChild(d);
+    b.onclick=function(){b.className=(b.className.indexOf('open')>-1)?'numc':'numc open'};
+    g.appendChild(b);
+  });
+  intro.appendChild(g);
+  intro.appendChild(el('div','note','عند الاتصال: اذكر <b>مكانك</b> بوضوح، و<b>ما حدث</b>، واسمك، ولا تغلق الخط حتى يطلب منك المختص ذلك.'));
+  var b=el('button','btn pri');b.type='button';b.textContent='ابدأ التحدي';
+  b.onclick=function(){
+    var items=[
+     {q:'اشتعلت النار في غرفة بجوار فصلك. بمن تتصل؟',o:['998','997','999','911'],a:0,why:'الحرائق من اختصاص الدفاع المدني (998).'},
+     {q:'سقط زميلك على الدرج ولا يستطيع الحركة. بمن تتصل؟',o:['998','997','999','911'],a:1,why:'الإصابات والحالات الصحية الطارئة من اختصاص الهلال الأحمر (997).'},
+     {q:'رأيت شخصًا غريبًا يحاول كسر باب المدرسة ليلًا. بمن تتصل؟',o:['998','997','999','911'],a:2,why:'الخطر الأمني من اختصاص الشرطة (999).'},
+     {q:'وقع حادث أمامك ولا تعرف أي جهة تناسبه. بمن تتصل؟',o:['998','997','999','911'],a:3,why:'الرقم الموحد (911) يستقبل أي حالة طارئة ويحوّلها إلى الجهة المناسبة.'}
+    ];
+    runQuiz(box,items,{num:true},done);
+  };
+  intro.appendChild(b);
+  box.appendChild(intro);
+}
+
+/* ---------- station 2: fire ---------- */
+function ext(step){
+  var hl='';
+  if(step===0)hl='<circle cx="96" cy="34" r="13" fill="none" stroke="#1c5fa8" stroke-width="4"/><path d="M116 14l-14 14" stroke="#1c5fa8" stroke-width="4" stroke-linecap="round"/>';
+  if(step===1)hl='<path d="M132 84l4 26" stroke="#1c5fa8" stroke-width="4" stroke-dasharray="6 5" stroke-linecap="round"/><path d="M128 102l8 12 6-14" fill="none" stroke="#1c5fa8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
+  if(step===2)hl='<circle cx="88" cy="30" r="16" fill="none" stroke="#1c5fa8" stroke-width="4"/><path d="M78 6l6 12M96 4l-4 12" stroke="#1c5fa8" stroke-width="4" stroke-linecap="round"/>';
+  if(step===3)hl='<path d="M104 130h52" stroke="#1c5fa8" stroke-width="4" stroke-linecap="round"/><path d="M112 124l-8 6 8 6M148 124l8 6-8 6" fill="none" stroke="#1c5fa8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
+  return '<svg viewBox="0 0 170 150" aria-hidden="true"><rect x="0" y="140" width="170" height="6" fill="#cdd8d2"/>'+
+   '<path d="M138 140c-6-8-6-14 0-20 2 5 6 6 6 12 0 3-2 6-6 8z" fill="#e8591a"/><path d="M142 140c-3-4-3-7 0-10 2 3 4 4 3 7z" fill="#f6c21a"/>'+
+   '<rect x="66" y="42" width="40" height="92" rx="11" fill="#d93b30"/><rect x="66" y="74" width="40" height="22" fill="#fff" opacity=".9"/><rect x="82" y="30" width="14" height="14" fill="#12372b"/>'+
+   '<path d="M72 28l34-2" stroke="#12372b" stroke-width="7" stroke-linecap="round"/><circle cx="96" cy="34" r="4" fill="#f6c21a" stroke="#12372b" stroke-width="2"/>'+
+   '<path d="M94 38c20 0 36 8 38 30" stroke="#12372b" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M128 66l8 18-12 2z" fill="#12372b"/>'+hl+'</svg>';
+}
+function st2(box,done){
+  var steps=[
+   'التزم الهدوء ولا تركض.',
+   'اترك أغراضك ولا تعد لأخذها.',
+   'اخرج مع معلمك عبر مسار الإخلاء، واستخدم الدرج لا المصعد.',
+   'اتجه إلى نقطة التجمع المحددة.',
+   'انتظر عدّ الطلاب ولا تغادر قبل أن يُؤذن لك.'
+  ];
+  function part1(){
+    clear(box);
+    var next=0,mistakes=0;
+    var c=el('div','card');
+    c.appendChild(el('h2',null,'رتّب خطوات الإخلاء'));
+    c.appendChild(el('p','muted','دوّى إنذار الحريق! اضغط الخطوات بالترتيب الصحيح من الأولى إلى الأخيرة.'));
+    var slots=el('ol','slots');c.appendChild(slots);
+    var pool=el('div','pool');c.appendChild(pool);
+    var msg=el('div');c.appendChild(msg);
+    shuffle([0,1,2,3,4]).forEach(function(i){
+      var b=el('button','opt');b.type='button';b.textContent=steps[i];
+      b.onclick=function(){
+        if(i===next){
+          next++;buzz(20);
+          var li=el('li');var n=el('b');n.textContent=String(next);li.appendChild(n);
+          var s=el('span');s.textContent=steps[i];li.appendChild(s);slots.appendChild(li);
+          pool.removeChild(b);clear(msg);
+          if(next===5){
+            var fb=el('div','fb ok');
+            var bb=el('b');bb.textContent='أحسنت! إخلاء منظم وآمن.';fb.appendChild(bb);
+            fb.appendChild(document.createTextNode(mistakes?('أخطأت '+mistakes+' مرة، والمحاولة تصنع المهارة.'):'أصبت من المحاولة الأولى.'));
+            msg.appendChild(fb);
+            var nx=el('button','btn pri');nx.type='button';nx.textContent='تعلّم استخدام الطفاية';
+            nx.onclick=function(){part2(Math.max(1,5-mistakes))};msg.appendChild(nx);
+            try{nx.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
+          }
+        }else{
+          mistakes++;buzz(60);
+          b.className='opt no shake';
+          setTimeout(function(){b.className='opt'},450);
+          clear(msg);
+          var f=el('div','fb no');f.textContent='ليست هذه الخطوة التالية. فكّر: ما الذي تفعله الآن قبل غيره؟';msg.appendChild(f);
+        }
+      };
+      pool.appendChild(b);
+    });
+    box.appendChild(c);
+  }
+  function part2(score){
+    clear(box);
+    var k=0;
+    var info=[
+     ['اسحب مسمار الأمان','اكسر الختم أو اسحب المسمار من أعلى الطفاية.'],
+     ['صوّب نحو قاعدة اللهب','وجّه الفوهة إلى أسفل النار لا إلى أعلاها.'],
+     ['اضغط على المقبض','اضغط المقبض بإحكام ليخرج المسحوق أو الرغوة.'],
+     ['حرّك من جانب إلى آخر','حرّك الفوهة يمينًا ويسارًا فوق قاعدة النار حتى تخمد.']
+    ];
+    var c=el('div','card');
+    c.appendChild(el('h2',null,'استخدام طفاية الحريق'));
+    c.appendChild(el('p','muted','أربع خطوات بسيطة. تنقّل بينها.'));
+    var art=el('div','ext');c.appendChild(art);
+    var head=el('div');head.style.marginTop='8px';c.appendChild(head);
+    var txt=el('p');c.appendChild(txt);
+    var row=el('div','row2');
+    var pv=el('button','btn sec');pv.type='button';pv.textContent='السابق';
+    var nx=el('button','btn pri');nx.type='button';
+    row.appendChild(nx);row.appendChild(pv);c.appendChild(row);
+    c.appendChild(el('div','note','<b>تنبيه:</b> لا تحاول إطفاء حريق كبير أو منتشر. ابتعد فورًا، وأخرج زملاءك، واتصل بالدفاع المدني <b>998</b>. وقف دائمًا أمام مخرج آمن وظهرك إليه.'));
+    box.appendChild(c);
+    function r(){
+      art.innerHTML=ext(k);
+      head.innerHTML='<span class="stepno">الخطوة '+(k+1)+'</span> <b></b>';
+      head.lastChild.textContent=' '+info[k][0];
+      txt.textContent=info[k][1];
+      pv.disabled=(k===0);
+      nx.textContent=(k===3)?'إنهاء المحطة':'التالي';
+    }
+    pv.onclick=function(){if(k>0){k--;r()}};
+    nx.onclick=function(){if(k<3){k++;r()}else{done(score)}};
+    r();
+  }
+  part1();
+}
+
+/* ---------- station 3: first aid ---------- */
+function st3(box,done){
+  clear(box);
+  box.appendChild(el('h2',null,'الإسعافات الأولية'));
+  box.appendChild(el('p','muted','أمامك أربع حالات. اختر التصرف الأصح، وأبلغ المعلم أو الممرض دائمًا.'));
+  var holder=el('div');box.appendChild(holder);
+  var items=[
+   {icon:'flame',q:'سكب زميلك ماءً ساخنًا على يده وظهر احمرار وألم. ما التصرف الصحيح؟',o:['ضع معجون الأسنان عليها','اجعل يده تحت ماء جارٍ بارد عدة دقائق','اضغط على الفقاعات ليجف الجلد'],a:1,why:'الماء الجاري البارد (غير المثلج) يخفف الألم ويقلل الضرر. لا تضع معجونًا ولا زيتًا، ولا تفقأ الفقاعات.'},
+   {icon:'drop',q:'بدأ أنف زميلك ينزف أثناء الحصة. ما التصرف الصحيح؟',o:['أمِل رأسه للخلف','أجلسه وأمِل رأسه للأمام واضغط الجزء اللين من أنفه عدة دقائق','اجعله يستلقي على ظهره'],a:1,why:'إمالة الرأس للأمام تمنع نزول الدم إلى الحلق، والضغط على الجزء اللين من الأنف يوقف النزيف.'},
+   {icon:'bandage',q:'جرح زميلك ساقه بحافة معدنية وينزف. ما أهم خطوة؟',o:['اضغط على الجرح مباشرة بشاش أو قماش نظيف','انزع الشاش كل دقيقة لتتفقد النزيف','اتركه مكشوفًا ليجف'],a:0,why:'الضغط المباشر والمستمر هو أهم خطوة لإيقاف النزيف. لا ترفع الضماد لتتفقده، وأبلغ المعلم فورًا.'},
+   {icon:'sun',q:'شعر زميلك بدوار وتعب شديد في الساحة وقت الظهيرة الحار. ما التصرف الصحيح؟',o:['اتركه يكمل الطابور','انقله إلى مكان ظليل بارد، واجعله يجلس واسقه ماءً إن كان واعيًا','صبّ عليه ماءً مثلجًا بسرعة'],a:1,why:'التبريد التدريجي في الظل وشرب الماء مع إبلاغ المعلم أو الممرض هو الصحيح. وإن فقد وعيه فلا تسقه شيئًا، واتصل بالهلال الأحمر 997.'}
+  ];
+  runQuiz(holder,items,{},done);
+}
+
+/* ---------- station 4: hazards ---------- */
+function st4(box,done){
+  clear(box);
+  box.appendChild(el('h2',null,'اكتشف الخطر'));
+  box.appendChild(el('p','muted','في هذا الممر ستة مخاطر. اضغط على كل خطر تراه.'));
+  var cnt=el('div','tag');box.appendChild(cnt);
+  var sc=el('div','scene');box.appendChild(sc);
+  var sv=$('#scene');
+  sc.appendChild(sv);
+  var marks=$('#marks',sv);clear(marks);
+  var list=el('div');box.appendChild(list);
+  var hintBtn=el('button','btn sec');hintBtn.type='button';box.appendChild(hintBtn);
+  var fin=el('button','btn pri');fin.type='button';fin.textContent='إنهاء المحطة';fin.hidden=true;box.appendChild(fin);
+  var H=[
+   {x:116,y:372,t:'ماء على الأرض',w:'الأرضية المبللة بلا لافتة تحذير قد تسبب انزلاقًا وإصابات. ضع لافتة أو أبلغ المسؤول.'},
+   {x:96,y:272,t:'مقبس كهرباء وأسلاك مكشوفة',w:'الأسلاك المكشوفة والمقبس المزدحم قد يسببان صعقًا أو حريقًا. لا تلمسها وأبلغ المعلم.'},
+   {x:146,y:254,t:'صناديق أمام مخرج الطوارئ',w:'سدّ المخرج يعيق الإخلاء وقت الخطر. يجب أن تبقى المخارج والممرات خالية دائمًا.'},
+   {x:236,y:372,t:'حقيبة في الممر',w:'الحقيبة المرمية قد تعثّر زملاءك. ضعها في مكانها المخصص.'},
+   {x:300,y:190,t:'طالب يركض على الدرج',w:'الركض على الدرج قد يسبب سقوطًا وإصابات. انزل بهدوء ممسكًا بالدرابزين.'},
+   {x:226,y:236,t:'طفاية الحريق مغطاة',w:'يجب أن تكون الطفاية ظاهرة وسهلة الوصول. تغطيتها تؤخر استخدامها وقت الحريق.'}
+  ];
+  var found={},nf=0,hints=0;
+  var NS='http://www.w3.org/2000/svg';
+  function upd(){
+    cnt.textContent='وجدت '+nf+' من 6';
+    hintBtn.textContent='تلميح ('+hints+')';
+    hintBtn.hidden=(nf===6);
+    fin.hidden=(nf!==6);
+  }
+  function toast(t){
+    var old=$('.toast',sc);if(old)sc.removeChild(old);
+    var d=el('div','toast');d.textContent=t;sc.appendChild(d);
+    setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d)},1500);
+  }
+  function mark(i){
+    var h=H[i];
+    var g=document.createElementNS(NS,'g');
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',h.x);c.setAttribute('cy',h.y);c.setAttribute('r',34);c.setAttribute('class','ring');
+    g.appendChild(c);
+    var b=document.createElementNS(NS,'circle');
+    b.setAttribute('cx',h.x+26);b.setAttribute('cy',h.y-26);b.setAttribute('r',13);b.setAttribute('fill','#1b8a5a');b.setAttribute('stroke','#fff');b.setAttribute('stroke-width','3');
+    g.appendChild(b);
+    var p=document.createElementNS(NS,'path');
+    p.setAttribute('d','M'+(h.x+20)+' '+(h.y-26)+'l5 5 9-10');p.setAttribute('fill','none');p.setAttribute('stroke','#fff');p.setAttribute('stroke-width','3.5');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
+    g.appendChild(p);marks.appendChild(g);
+  }
+  function hit(i){
+    if(found[i])return;
+    found[i]=true;nf++;buzz(25);mark(i);
+    var f=el('div','found');
+    var n=el('div','n');n.textContent=String(nf);f.appendChild(n);
+    var d=el('div');var bb=el('b');bb.textContent=H[i].t;d.appendChild(bb);d.appendChild(document.createTextNode(H[i].w));f.appendChild(d);
+    list.insertBefore(f,list.firstChild);
+    upd();
+    if(nf===6){toast('أحسنت! وجدت كل المخاطر');}
+  }
+  sv.onclick=function(e){
+    var t=e.target;
+    var i=t&&t.getAttribute?t.getAttribute('data-i'):null;
+    if(i!==null&&i!==undefined){hit(parseInt(i,10))}else{toast('لا خطر هنا، ابحث في مكان آخر')}
+  };
+  hintBtn.onclick=function(){
+    var left=[];for(var i=0;i<6;i++)if(!found[i])left.push(i);
+    if(!left.length)return;
+    var i=left[0];hints++;upd();
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',H[i].x);c.setAttribute('cy',H[i].y);c.setAttribute('r',34);c.setAttribute('class','ping');
+    marks.appendChild(c);
+    setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c)},3200);
+    toast('انظر إلى الدائرة الحمراء');
+  };
+  fin.onclick=function(){
+    var s=Math.max(2,6-Math.min(hints,4));
+    box.removeChild(sc);
+    $('#scene-src').appendChild(sv);
+    done(s);
+  };
+  upd();
+}
+
+/* ---------- station 5: habits ---------- */
+function st5(box,done){
+  clear(box);
+  box.appendChild(el('h2',null,'بيئة صحية'));
+  box.appendChild(el('p','muted','اقرأ كل سلوك واحكم عليه: صحيح أم خاطئ؟'));
+  var holder=el('div');box.appendChild(holder);
+  var cards=[
+   {i:'trash',q:'أرمي بقايا الطعام والأوراق في سلة المهملات.',a:true,w:'نظافة المكان من مسؤولية الجميع، والسلة هي المكان الصحيح للمخلفات.'},
+   {i:'tap',q:'أترك صنبور الماء مفتوحًا بعد الاستعمال.',a:false,w:'ترك الصنبور مفتوحًا يهدر الماء. أغلقه جيدًا وأبلغ عن أي تسريب.'},
+   {i:'bulb',q:'أطفئ الإضاءة والمكيف عند مغادرة فصل فارغ.',a:true,w:'ترشيد الكهرباء يحمي البيئة ويخفف الهدر.'},
+   {i:'hands',q:'أغسل يديّ بالماء والصابون قبل تناول الطعام.',a:true,w:'غسل اليدين من أهم وسائل الوقاية من الأمراض.'},
+   {i:'bottle',q:'أشرب من نفس العبوة التي شرب منها زميلي.',a:false,w:'مشاركة أدوات الشرب تنقل الجراثيم والأمراض. لكل شخص عبوته الخاصة.'},
+   {i:'recycle',q:'أضع الورق المستعمل في حاوية التدوير.',a:true,w:'تدوير الورق يقلل النفايات ويحافظ على الموارد.'},
+   {i:'hiding',q:'أخبّئ بقايا الطعام داخل الدرج لأرميها لاحقًا.',a:false,w:'بقايا الطعام تجذب الحشرات وتسبب الروائح والأمراض. ارمها في السلة فورًا.'},
+   {i:'alert',q:'أخبر المعلم فورًا عن أي تسريب مياه أو عطل كهربائي.',a:true,w:'الإبلاغ المبكر يمنع الحوادث ويحمي الجميع.'}
+  ];
+  var idx=0,score=0;
+  function show(){
+    clear(holder);
+    var c=cards[idx];
+    var bc=el('div','big-card');
+    bc.appendChild(el('div','qno','السلوك '+(idx+1)+' من '+cards.length));
+    bc.appendChild(el('div','qic',IC[c.i]));
+    var q=el('div','q');q.textContent=c.q;bc.appendChild(q);
+    var fbBox=el('div');
+    var yn=el('div','yn');
+    var yes=el('button','btn yes');yes.type='button';yes.innerHTML=CHECK+'<span>صحيح</span>';
+    var no=el('button','btn no');no.type='button';no.innerHTML=CROSS+'<span>خاطئ</span>';
+    if(c.a)yes.setAttribute('data-ok','1');else no.setAttribute('data-ok','1');
+    function ans(v){
+      yes.disabled=true;no.disabled=true;
+      var ok=(v===c.a);if(ok){score++;buzz(20)}else buzz(60);
+      var fb=el('div','fb '+(ok?'ok':'no'));fb.style.textAlign='right';
+      var bb=el('b');bb.textContent=ok?'أحسنت!':'ليست هذه الإجابة. الصحيح: '+(c.a?'سلوك صحيح':'سلوك خاطئ');fb.appendChild(bb);
+      fb.appendChild(document.createTextNode(c.w));fbBox.appendChild(fb);
+      var nx=el('button','btn pri');nx.type='button';nx.textContent=(idx===cards.length-1)?'إنهاء المحطة':'التالي';
+      nx.onclick=function(){if(idx===cards.length-1){done(score)}else{idx++;show()}};
+      fbBox.appendChild(nx);
+      try{nx.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
+    }
+    yes.onclick=function(){ans(true)};no.onclick=function(){ans(false)};
+    yn.appendChild(yes);yn.appendChild(no);bc.appendChild(yn);bc.appendChild(fbBox);holder.appendChild(bc);
+  }
+  show();
+}
+
+var RUN=[st1,st2,st3,st4,st5];
+
+/* ---------- station flow ---------- */
+var curSt=0;
+function openStation(i){
+  curSt=i;
+  $('#top-title').textContent=ST[i].t;
+  var box=$('#play');clear(box);
+  go('play');
+  $('#btn-back').style.visibility='visible';
+  var inner=el('div');box.appendChild(inner);
+  RUN[i](inner,function(score){finishStation(i,score)});
+}
+function finishStation(i,score){
+  var prev=S.scores[i];
+  if(prev===null||score>prev)S.scores[i]=score;
+  save();renderDots();
+  var box=$('#play');clear(box);
+  var c=el('div','card res pop');
+  var ratio=score/MAXES[i];
+  var n=ratio>=.99?3:ratio>=.6?2:1;
+  var st=el('div','stars');
+  for(var k=0;k<3;k++){var s=el('div',null,star(k<n));st.appendChild(s.firstChild)}
+  c.appendChild(st);
+  c.appendChild(el('div','score',score+' / '+MAXES[i]));
+  var msg=el('p');
+  msg.textContent=ratio>=.99?'ممتاز! أتقنت هذه المحطة.':ratio>=.6?'جيد! يمكنك إعادة المحاولة للوصول إلى الدرجة الكاملة.':'بداية جيدة. أعد المحاولة لتحسّن درجتك.';
+  c.appendChild(msg);
+  var b1=el('button','btn pri');b1.type='button';b1.textContent='العودة إلى المحطات';b1.onclick=function(){toHub(true)};
+  var b2=el('button','btn sec');b2.type='button';b2.textContent='أعد المحاولة';b2.onclick=function(){openStation(i)};
+  c.appendChild(b1);c.appendChild(b2);
+  box.appendChild(c);
+  try{window.scrollTo(0,0)}catch(e){}
+}
+
+/* ---------- certificate ---------- */
+function showCert(){
+  var t=total(),m=maxTotal(),r=t/m;
+  $('#c-name').textContent=S.name||'سفير الأمان';
+  $('#c-score').textContent=t+' من '+m;
+  var lv=r>=.85?'سفير الأمان':r>=.65?'حارس السلامة':'مبتدئ واعٍ';
+  $('#c-level').textContent='المستوى: '+lv;
+  var stars=r>=.85?3:r>=.65?2:1;
+  var sb=$('#c-stars');clear(sb);
+  for(var k=0;k<3;k++){var s=el('div',null,star(k<stars));sb.appendChild(s.firstChild)}
+  var d=new Date(),ds='';
+  try{ds=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(d)}catch(e){ds=''}
+  if(!ds){var ms=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];ds=d.getDate()+' '+ms[d.getMonth()]+' '+d.getFullYear()+'م'}
+  $('#c-date').textContent='التاريخ: '+ds;
+  var cert=$('#cert');cert.className='cert';
+  go('final');
+  setTimeout(function(){cert.className='cert pop'},20);
+}
+
+/* ---------- wiring ---------- */
+$('#btn-start').onclick=function(){
+  var v=$('#in-name').value.replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'');
+  S.name=v;save();toHub();
+};
+$('#in-name').onkeydown=function(e){if(e.key==='Enter'||e.keyCode===13){$('#btn-start').onclick()}};
+$('#btn-back').onclick=function(){
+  if(cur==='play'){
+    var sv=$('#scene');var src=$('#scene-src');
+    if(sv&&sv.parentNode!==src)src.appendChild(sv);
+  }
+  toHub(true);
+};
+$('#btn-cert').onclick=showCert;
+$('#btn-hub2').onclick=function(){toHub(true)};
+$('#btn-reset').onclick=function(){
+  S.scores=[null,null,null,null,null];save();
+  $('#in-name').value=S.name;
+  go('cover',true);
+};
+
+load();
+if(S.name)$('#in-name').value=S.name;
+renderDots();
+
+/* خط النسخ من الشبكة بعد التحميل: لا يعطّل الصفحة إذا كان محجوبًا */
+window.setTimeout(function(){
+  try{
+    var l=document.createElement('link');
+    l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;700&display=swap';
+    document.head.appendChild(l);
+  }catch(e){}
+},1500);
+})();
+</script>
+</body>
+</html>
