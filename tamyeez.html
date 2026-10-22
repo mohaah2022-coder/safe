@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مغامرة التمييز | لغتي الخالدة</title>
+<style>
+:root{--navy:#174a66;--blue:#287da0;--sky:#eaf6fc;--mint:#e5f6ee;--green:#21845b;--gold:#f6c85f;--ink:#243746;--muted:#627786;--paper:#fff;--line:#d5e5ed;--pink:#fff0eb}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(150deg,#e9f6fc,#f7fbff 48%,#eff9ee);font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.8}
+header{background:linear-gradient(120deg,#174a66,#287da0);color:white;padding:26px 16px 34px;text-align:center;border-radius:0 0 28px 28px}
+header .emoji{font-size:42px}header h1{margin:5px 0;font-size:clamp(25px,5vw,38px)}header p{margin:5px auto;max-width:700px;color:#e8f7ff}
+.wrap{max-width:920px;margin:22px auto;padding:0 14px 35px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;margin:15px 0;box-shadow:0 7px 22px #174a6610}
+h2{font-size:23px;color:var(--navy);margin:0 0 10px}h3{color:var(--navy);margin:8px 0}
+.pill{display:inline-block;background:var(--sky);color:var(--navy);padding:4px 12px;border-radius:99px;font-size:13px;font-weight:bold}
+.hero-grid,.types,.example-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mini{background:#f6fbfd;border:1px solid var(--line);border-radius:15px;padding:14px}
+.big-example{font-size:22px;font-weight:bold;color:var(--navy);text-align:center;padding:10px}
+.highlight{color:var(--green);font-weight:bold;background:#e7f7ed;border-radius:7px;padding:1px 5px}
+.note{background:#fff8e4;border-right:4px solid var(--gold);padding:12px 14px;border-radius:10px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font:inherit;font-weight:bold;cursor:pointer;background:var(--blue);color:white;transition:.15s}
+.btn:hover{filter:brightness(.95);transform:translateY(-1px)}.btn.secondary{background:#e9f4f8;color:var(--navy)}.btn.gold{background:#f4c85e;color:#453600}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.progress{height:10px;background:#e7f0f4;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#37a879,#80d7a8);transition:width .3s}
+.question{font-size:20px;font-weight:bold;margin:10px 0 15px}
+.option{display:block;width:100%;text-align:right;border:2px solid var(--line);background:white;color:var(--ink);padding:12px 14px;border-radius:13px;margin:8px 0;font:inherit;cursor:pointer}
+.option:hover{border-color:#77b7d0;background:#f6fcff}.option.correct{background:#e7f8ee;border-color:#50ae79}.option.wrong{background:#fff0eb;border-color:#e99a82}
+.feedback{padding:12px;border-radius:12px;margin-top:12px}.good{background:#e7f8ee;color:#17653f}.bad{background:#fff0eb;color:#8c3f2b}
+.hidden{display:none!important}.score{font-size:28px;font-weight:bold;color:var(--green)}
+.certificate{border:5px double #d4ad43;background:linear-gradient(145deg,#fffef7,#f5fbff);text-align:center;padding:25px;border-radius:15px}
+.certificate h2{color:#8a6a12;font-size:29px}.namebox{font-size:24px;color:var(--navy);font-weight:bold;border-bottom:1px solid #d9c27b;display:inline-block;padding:0 25px 5px;min-width:180px}
+input{font:inherit;padding:11px;border:1px solid var(--line);border-radius:10px;width:100%;max-width:420px}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:18px}
+@media(max-width:600px){.hero-grid,.types,.example-grid{grid-template-columns:1fr}.card{padding:16px}header{padding-top:20px}.question{font-size:18px}}
+@media print{body{background:white}.no-print,header,.card:not(#certificateCard){display:none!important}#certificateCard{display:block!important;box-shadow:none;border:0}.certificate{margin:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="emoji">🔎📚</div>
+  <span class="pill" style="background:#ffffff25;color:white">لغتي الخالدة · الصف الثالث المتوسط</span>
+  <h1>مغامرة التمييز</h1>
+  <p>رحلة قصيرة نفهم فيها التمييز، ونميّز نوعيه، ثم نختبر أنفسنا في مسابقة لطيفة!</p>
+  <p style="font-size:14px">إعداد المعلم: محمد آل لحيان</p>
+</header>
+<main class="wrap">
+<section class="card">
+  <h2>🎯 مهمتك اليوم</h2>
+  <div class="hero-grid">
+    <div class="mini"><strong>١. أفهم</strong><br>ما التمييز؟ وما فائدته؟</div>
+    <div class="mini"><strong>٢. أكتشف</strong><br>التمييز المفرد وتمييز الجملة.</div>
+  </div>
+  <p class="note">ابدأ بقراءة الشرح، ثم انتقل إلى تحدّي الأبطال. اقرأ الجملة كاملة قبل اختيار الإجابة.</p>
+</section>
+
+<section class="card">
+  <h2>💡 أولًا: ما التمييز؟</h2>
+  <p><strong>التمييز:</strong> اسم نكرة يوضح كلمةً أو معنىً مبهمًا قبله، ويأتي منصوبًا غالبًا.</p>
+  <div class="big-example">اشتريتُ عشرينَ <span class="highlight">قلمًا</span>.</div>
+  <p>كلمة «عشرين» لا توضّح وحدها نوع المعدود، فجاءت كلمة <span class="highlight">قلمًا</span> لتزيل الإبهام. إذن: <strong>قلمًا = تمييز</strong>.</p>
+</section>
+
+<section class="card">
+  <h2>🧩 ثانيًا: نوعا التمييز</h2>
+  <div class="types">
+    <div class="mini">
+      <span class="pill">تمييز مفرد (تمييز ذات)</span>
+      <h3>يوضّح اسمًا أو مقدارًا قبله</h3>
+      <div class="big-example">اشتريتُ لترًا <span class="highlight">حليبًا</span>.</div>
+      <p>ما الشيء الذي اشتريتُ لترًا منه؟ <strong>حليبًا</strong>.</p>
+      <p>أمثلة أخرى: عندي عشرون <span class="highlight">ريالًا</span>، واشتريتُ مترًا <span class="highlight">قماشًا</span>.</p>
+    </div>
+    <div class="mini">
+      <span class="pill">تمييز جملة (تمييز نسبة)</span>
+      <h3>يوضّح معنى الجملة كاملة</h3>
+      <div class="big-example">ازداد الطالبُ <span class="highlight">علمًا</span>.</div>
+      <p>في أي شيء ازداد الطالب؟ <strong>علمًا</strong>.</p>
+      <p>أمثلة أخرى: طاب المكانُ <span class="highlight">هواءً</span>، وامتلأ الإناءُ <span class="highlight">ماءً</span>.</p>
+    </div>
+  </div>
+  <p class="note"><strong>مفتاح التذكّر 🔑</strong> إذا وضّح التمييز عددًا أو مقدارًا أو اسمًا قبله فهو غالبًا تمييز مفرد. وإذا وضّح معنى الجملة كلها فهو تمييز جملة.</p>
+</section>
+
+<section class="card">
+  <h2>🕵️ جرّب بنفسك قبل المسابقة</h2>
+  <div class="example-grid">
+    <div class="mini"><strong>العلماء أكثرُ <span class="highlight">نفعًا</span>.</strong><br>«نفعًا» يوضح معنى المقارنة في الجملة: تمييز جملة.</div>
+    <div class="mini"><strong>منحتُ الفائزَ ثلاثينَ <span class="highlight">ريالًا</span>.</strong><br>«ريالًا» يوضح المعدود بعد العدد: تمييز مفرد.</div>
+  </div>
+</section>
+
+<section class="card" id="quizCard">
+  <h2>🏆 تحدّي أبطال التمييز</h2>
+  <p>أجب عن ٨ أسئلة. لكل إجابة صحيحة نقطة، وستظهر نتيجتك في النهاية.</p>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <div id="quiz">
+    <div class="pill" id="qCount">السؤال ١ من ٨</div>
+    <div class="question" id="qText">...</div>
+    <div id="options"></div>
+    <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+    <div class="actions"><button class="btn" id="nextBtn" disabled>السؤال التالي ←</button></div>
+  </div>
+  <div id="result" class="hidden">
+    <div class="score" id="scoreText"></div>
+    <p id="resultMsg"></p>
+    <div class="actions"><button class="btn gold" id="certBtn">🎓 عرض شهادة الإنجاز</button><button class="btn secondary" id="retryBtn">إعادة المسابقة</button></div>
+  </div>
+</section>
+
+<section class="card hidden" id="certificateCard">
+  <div class="certificate">
+    <div style="font-size:42px">🏅</div>
+    <h2>شهادة بطل التمييز</h2>
+    <p>تُمنح هذه الشهادة إلى الطالب/ـة</p>
+    <p><input id="studentName" placeholder="اكتب اسمك هنا" aria-label="اسم الطالب"></p>
+    <p>لإكماله مسابقة التمييز في مادة لغتي الخالدة</p>
+    <p class="score" id="certScore">—</p>
+    <p>أحسنت! واصل التعلّم والتميّز 🌟</p>
+    <p style="margin-top:24px">إعداد المعلم: محمد آل لحيان</p>
+  </div>
+  <div class="actions no-print"><button class="btn" onclick="window.print()">🖨️ طباعة / حفظ الشهادة PDF</button><button class="btn secondary" id="backBtn">العودة للمسابقة</button></div>
+</section>
+<footer>لغتي الخالدة · تعلّم، جرّب، ثم تميّز ✨</footer>
+</main>
+<script>
+const questions=[
+ {q:"ما الكلمة التي تمثّل التمييز في: «اشتريتُ خمسةَ كتبٍ»؟",opts:["اشتريتُ","خمسةَ","كتبٍ","لا يوجد تمييز"],a:2,why:"«كتبٍ» تمييز مفرد يوضح المعدود بعد العدد، وقد جاء مجرورًا بالإضافة في هذا المثال."},
+ {q:"حدّد التمييز في: «ازداد الجوُّ حرارةً».",opts:["ازداد","الجوُّ","حرارةً","لا يوجد تمييز"],a:2,why:"«حرارةً» تمييز جملة؛ لأنه يوضح في أي شيء ازداد الجو."},
+ {q:"أي الجمل الآتية تحتوي على تمييز مفرد؟",opts:["طاب الرجلُ نفسًا","امتلأ الكأسُ ماءً","اشتريتُ مترًا قماشًا","ازداد الطالبُ أدبًا"],a:2,why:"«قماشًا» يوضح نوع الشيء الذي قيس بالمتر، فهو تمييز مفرد."},
+ {q:"نوع التمييز في «المعلم أكثرُ خبرةً» هو:",opts:["تمييز مفرد","تمييز جملة","مفعول به","حال"],a:1,why:"«خبرةً» يوضح معنى التفضيل في الجملة كاملة، فهو تمييز جملة."},
+ {q:"أكمل بتمييز مناسب: «في المكتبة عشرونَ ____».",opts:["طالبٌ","طالبًا","طلابٌ","طالبٍ"],a:1,why:"«طالبًا» تمييز منصوب يوضح المعدود بعد العدد عشرين."},
+ {q:"ما فائدة التمييز في اللغة؟",opts:["السؤال عن الزمان","توضيح الإبهام في كلمة أو معنى","الدلالة على الأمر","ربط جملتين فقط"],a:1,why:"التمييز يزيل الإبهام ويوضح المقصود من الاسم أو المعنى الذي قبله."},
+ {q:"في «امتلأ الحوضُ ماءً» التمييز هو:",opts:["امتلأ","الحوضُ","ماءً","الحوض ماء"],a:2,why:"«ماءً» يوضح بماذا امتلأ الحوض، وهو تمييز جملة."},
+ {q:"أي عبارة صحيحة عن التمييز؟",opts:["يكون دائمًا فعلًا","يكون معرفة دائمًا","اسم نكرة يوضح إبهامًا قبله","لا يأتي منصوبًا أبدًا"],a:2,why:"التمييز اسم نكرة يوضح الإبهام، ويأتي منصوبًا غالبًا، وقد يأتي مجرورًا في بعض التراكيب."}
+];
+let index=0,score=0,locked=false;
+const qText=document.getElementById('qText'),options=document.getElementById('options'),feedback=document.getElementById('feedback'),nextBtn=document.getElementById('nextBtn');
+function render(){
+ locked=false; const q=questions[index]; document.getElementById('qCount').textContent=`السؤال ${index+1} من ${questions.length}`;
+ qText.textContent=q.q; options.innerHTML=''; feedback.className='feedback hidden'; feedback.textContent=''; nextBtn.disabled=true;
+ document.getElementById('bar').style.width=(index/questions.length*100)+'%';
+ q.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='option';b.textContent=String.fromCharCode(0x0623+i)+') '+opt;b.onclick=()=>choose(i,b);options.appendChild(b)});
+ nextBtn.textContent=index===questions.length-1?'عرض النتيجة 🏁':'السؤال التالي ←';
+}
+function choose(i,button){
+ if(locked)return;locked=true;const q=questions[index];const all=[...options.children];all.forEach(b=>b.disabled=true);
+ if(i===q.a){score++;button.classList.add('correct');feedback.className='feedback good';feedback.textContent='أحسنت! إجابة صحيحة 🌟 '+q.why}
+ else{button.classList.add('wrong');all[q.a].classList.add('correct');feedback.className='feedback bad';feedback.textContent='قريب من الإجابة! لا بأس، تعلّمنا شيئًا جديدًا. '+q.why}
+ nextBtn.disabled=false;document.getElementById('bar').style.width=((index+1)/questions.length*100)+'%';
+}
+nextBtn.onclick=()=>{if(index<questions.length-1){index++;render()}else showResult()};
+function showResult(){document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.remove('hidden');document.getElementById('scoreText').textContent=`نتيجتك: ${score} من ${questions.length}`;document.getElementById('resultMsg').textContent=score>=7?'رائع! أنت بطل التمييز 🏆':score>=5?'عمل جميل! راجع الأمثلة وحاول مرة أخرى 💪':'لا تستسلم! ارجع للشرح ثم أعد التحدي، وستتحسن نتيجتك ⭐';document.getElementById('certScore').textContent=`النتيجة: ${score} / ${questions.length}`;}
+document.getElementById('retryBtn').onclick=()=>{index=0;score=0;document.getElementById('result').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');document.getElementById('certificateCard').classList.add('hidden');render()};
+document.getElementById('certBtn').onclick=()=>{document.getElementById('certificateCard').classList.remove('hidden');document.getElementById('studentName').focus();document.getElementById('certificateCard').scrollIntoView({behavior:'smooth'})};
+document.getElementById('backBtn').onclick=()=>document.getElementById('quizCard').scrollIntoView({behavior:'smooth'});
+render();
+</script>
+</body>
+</html>
